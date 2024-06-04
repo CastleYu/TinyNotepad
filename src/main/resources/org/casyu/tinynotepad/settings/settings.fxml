@@ -4,21 +4,21 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.casyu.tinynotepad.settings.SettingsController">
+
+<BorderPane prefHeight="400.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.casyu.tinynotepad.settings.SettingsController">
     <left>
-        <TreeView fx:id="settingsTree" prefWidth="150" BorderPane.alignment="CENTER">
+        <TreeView fx:id="settingsTree" prefWidth="150.0" BorderPane.alignment="CENTER">
             <root>
                 <TreeItem value="Settings">
                     <children>
-                        <TreeItem value="常规"/>
-                        <TreeItem value="外观"/>
+                        <TreeItem value="常规" />
+                        <TreeItem value="外观" />
                     </children>
                 </TreeItem>
             </root>
         </TreeView>
     </left>
     <center>
-        <StackPane fx:id="settingsPane"/>
+        <StackPane fx:id="settingsPane" />
     </center>
 </BorderPane>

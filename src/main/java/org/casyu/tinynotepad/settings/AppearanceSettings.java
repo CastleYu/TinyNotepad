@@ -1,7 +1,13 @@
 package org.casyu.tinynotepad.settings;
 
-public class AppearanceSettings {
+import javafx.scene.control.TextArea;
 
+public class AppearanceSettings {
+    private final TextArea textArea;
+
+    public AppearanceSettings(TextArea textArea){
+        this.textArea = textArea;
+    }
     public void applyFontSettings() {
         // 应用字体设置
     }
