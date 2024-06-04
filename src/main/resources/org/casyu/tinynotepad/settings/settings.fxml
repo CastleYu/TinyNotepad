@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TreeItem?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="400.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.casyu.tinynotepad.settings.SettingsController">
+<BorderPane prefHeight="400.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.casyu.tinynotepad.settings.SettingsController">
     <left>
-        <TreeView fx:id="settingsTree" prefWidth="150.0" BorderPane.alignment="CENTER">
+        <TreeView fx:id="settingsTree" prefWidth="150.0" showRoot="false" BorderPane.alignment="CENTER">
             <root>
                 <TreeItem value="Settings">
                     <children>
@@ -16,6 +15,9 @@
                     </children>
                 </TreeItem>
             </root>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
         </TreeView>
     </left>
     <center>

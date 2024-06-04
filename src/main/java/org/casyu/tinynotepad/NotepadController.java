@@ -1,14 +1,26 @@
 package org.casyu.tinynotepad;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
 import org.casyu.tinynotepad.file.SaveManager;
 import org.casyu.tinynotepad.query.SearchManager;
+import org.casyu.tinynotepad.settings.AppearanceSettings;
 import org.casyu.tinynotepad.settings.SettingsController;
 
 public class NotepadController {
 
+    @FXML
+    public MenuItem findItem;
+    @FXML
+    public MenuItem findOrReplaceItem;
+    @FXML
+    public Label positionLabel;
+    @FXML
+    public Label encodingLabel;
     @FXML
     private MenuItem newItem;
     @FXML
@@ -41,20 +53,22 @@ public class NotepadController {
     private MenuItem unselectAllItem;
     @FXML
     private TextArea textArea;
-
+    @FXML
+    public CheckMenuItem wrapTextItem;
+    private SearchManager searchManager;
     private final SettingsController settingsController;
-    private final SearchManager searchManager;
     private SaveManager saveManager;
 
     public NotepadController() {
-        // Initialize controllers
         settingsController = new SettingsController();
-        searchManager = new SearchManager();
     }
 
     @FXML
     public void initialize() {
-        // Bind menu items to their actions
+        searchManager = new SearchManager(textArea);
+        saveManager = new SaveManager(textArea);
+        settingsController.appearanceSettings = new AppearanceSettings(textArea);
+
         newItem.setOnAction(event -> createNewFile());
         openItem.setOnAction(event -> openFile());
         closeItem.setOnAction(event -> closeFile());
@@ -71,7 +85,14 @@ public class NotepadController {
         deleteItem.setOnAction(event -> delete());
         selectAllItem.setOnAction(event -> selectAll());
         unselectAllItem.setOnAction(event -> unselectAll());
-        saveManager = new SaveManager(textArea);
+        wrapTextItem.selectedProperty().bindBidirectional(textArea.wrapTextProperty());
+        textArea.setOnKeyReleased(this::updatePosition);
+        updatePosition(null);
+
+
+
+        encodingLabel.textProperty().bind(saveManager.encodingProperty().concat(" 编码"));
+        findOrReplaceItem.setOnAction(event -> searchManager.findOrReplace());
     }
 
     private void createNewFile() {
@@ -94,53 +115,51 @@ public class NotepadController {
         saveManager.saveAs();
     }
 
-    // Open the settings window
     private void openSettings() {
         settingsController.openSettings();
     }
 
-    // Exit the application
     private void exitApp() {
-        // Implement exit logic
+        saveManager.askForSave();
+        System.exit(0);
     }
 
-    // Undo the last action
     private void undo() {
         textArea.undo();
     }
 
-    // Redo the last undone action
     private void redo() {
         textArea.redo();
     }
 
-    // Cut the selected text
     private void cut() {
         textArea.cut();
     }
 
-    // Copy the selected text
     private void copy() {
         textArea.copy();
     }
 
-    // Paste text from clipboard
     private void paste() {
         textArea.paste();
     }
 
-    // Delete the selected text
     private void delete() {
-        // Implement delete logic
+        textArea.deleteText(textArea.getSelection());
     }
 
-    // Select all text
     private void selectAll() {
         textArea.selectAll();
     }
 
-    // Unselect all text
     private void unselectAll() {
         textArea.deselect();
+    }
+
+    private void updatePosition(KeyEvent event) {
+        int caretPosition = textArea.getCaretPosition();
+        int rowNum = textArea.getText(0, caretPosition).split("\n").length;
+        int colNum = caretPosition - textArea.getText(0, caretPosition).lastIndexOf("\n");
+        positionLabel.setText("行: " + rowNum + ", 列: " + colNum);
     }
 }

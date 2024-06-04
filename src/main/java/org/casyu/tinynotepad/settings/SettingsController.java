@@ -19,13 +19,15 @@ public class SettingsController {
     private TreeView<String> settingsTree;
     @FXML
     private StackPane settingsPane;
-    private Settings settings;
-    private boolean settingsChanged = false;
+    private final Settings settings;
+    public AppearanceSettings appearanceSettings;
+
+    public SettingsController() {
+        settings = Settings.getInstance();
+    }
 
     @FXML
     public void initialize() {
-        settings = Settings.getInstance();
-
         settingsTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 switch (newValue.getValue()) {
@@ -42,10 +44,10 @@ public class SettingsController {
 
     private void displayGeneralSettings() {
         CheckBox wrapTextCheckbox = new CheckBox("启用自动换行");
-        wrapTextCheckbox.setSelected(settings.isWrapText());
+        boolean isWrap = appearanceSettings.checkWrap();
+        wrapTextCheckbox.setSelected(isWrap);
         wrapTextCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             settings.setWrapText(newValue);
-            settingsChanged = true;
         });
         settingsPane.getChildren().setAll(wrapTextCheckbox);
     }
@@ -59,23 +61,20 @@ public class SettingsController {
         fontTypeCombo.setValue(settings.getFontType());
         fontTypeCombo.valueProperty().addListener((observable, oldValue, newValue) -> {
             settings.setFontType(newValue);
-            settingsChanged = true;
         });
 
         TextField fontSizeField = new TextField(String.valueOf(settings.getFontSize()));
         fontSizeField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 settings.setFontSize(Integer.parseInt(newValue));
-                settingsChanged = true;
             } catch (NumberFormatException e) {
-                // Handle invalid number format
+                throw new RuntimeException(e);
             }
         });
 
         ColorPicker fontColorPicker = new ColorPicker(settings.getFontColor());
         fontColorPicker.setOnAction(event -> {
             settings.setFontColor(fontColorPicker.getValue());
-            settingsChanged = true;
         });
 
         layout.getChildren().addAll(new Label("字体:"), fontTypeCombo, new Label("字体大小:"), fontSizeField, new Label("字体颜色:"), fontColorPicker);
@@ -92,6 +91,9 @@ public class SettingsController {
             Stage settingsStage = new Stage();
             settingsStage.setTitle("Settings");
             settingsStage.setScene(new Scene(root));
+            settingsStage.setOnCloseRequest(event -> {
+                closeSettings();
+            });
             settingsStage.initModality(Modality.APPLICATION_MODAL); // 设置为模态窗口，阻塞其他窗口操作
             settingsStage.showAndWait(); // 显示窗口并等待其关闭
         } catch (IOException e) {
@@ -100,18 +102,16 @@ public class SettingsController {
     }
 
     public void closeSettings() {
-        // 获取当前窗口并关闭
         applySettings();
-        Stage stage = (Stage) settingsPane.getScene().getWindow();
-        stage.close();
+        if (settingsPane!=null) {
+            Stage stage = (Stage) settingsPane.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public void applySettings() {
-        // 应用设置并保存到Settings类
-        if (settingsChanged) {
-            settings.saveSettings();
-            settingsChanged = false;
-        }
+        settings.saveSettings();
+        appearanceSettings.applyAllSettings();
     }
 
 }

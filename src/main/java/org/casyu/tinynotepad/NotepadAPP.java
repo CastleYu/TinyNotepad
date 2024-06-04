@@ -21,6 +21,7 @@ public class NotepadAPP extends Application {
             root = loader.load();
         } catch (Exception e) {
             System.out.println("error when load");
+            System.err.println(e);
             return;
         }
         Scene scene = new Scene(root);

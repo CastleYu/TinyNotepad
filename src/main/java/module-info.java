@@ -11,4 +11,6 @@ module org.casyu.tinynotepad {
     opens org.casyu.tinynotepad.settings to javafx.fxml;
     exports org.casyu.tinynotepad.file;
     opens org.casyu.tinynotepad.file to javafx.fxml;
+    exports org.casyu.tinynotepad.query;
+    opens org.casyu.tinynotepad.query to javafx.fxml;
 }

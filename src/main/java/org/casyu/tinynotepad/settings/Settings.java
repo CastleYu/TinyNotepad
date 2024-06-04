@@ -80,19 +80,5 @@ public class Settings {
     }
 
     public void saveSettings() {
-        // 保存设置到文件或其他来源
-        String filePath = "settings.txt";
-        if (!new File(filePath).exists()) {
-            try {
-                new File(filePath).createNewFile();
-            } catch (IOException e) {
-                return;
-            }
-        }
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            oos.writeObject(this);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
