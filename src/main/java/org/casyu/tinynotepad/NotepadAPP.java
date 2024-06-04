@@ -8,14 +8,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MyHelloApp extends Application {
+public class NotepadAPP extends Application {
+    private Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        this.primaryStage = primaryStage;
         FXMLLoader loader;
         VBox root;
         try {
-            loader = new FXMLLoader(getClass().getResource("/MyHelloApp.fxml"));
+            loader = new FXMLLoader(getClass().getResource("NotepadMain.fxml"));
             root = loader.load();
         } catch (Exception e) {
             System.out.println("error when load");
@@ -30,4 +32,13 @@ public class MyHelloApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
 }

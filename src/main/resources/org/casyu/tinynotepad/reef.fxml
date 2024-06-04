@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FileController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="文件">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionNew" text="新建" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionSave" text="保存" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionOtherSave" text="另存为" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionOpen" text="打开" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="编辑">
+                    <items>
+                        <MenuItem fx:id="backMenuItem" mnemonicParsing="false" onAction="#OnActionBack" text="撤销" />
+                        <MenuItem fx:id="redoMenuItem" mnemonicParsing="false" onAction="#OnActionRedo" text="重做" />
+                        <MenuItem fx:id="findMenuItem" mnemonicParsing="false" text="查找" />
+                        <MenuItem fx:id="replaceMenuItem" mnemonicParsing="false" text="替换" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionFont" text="字体" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="查看">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionHelp" text="帮助" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionWrap" text="自动换行" />
+                        <Menu mnemonicParsing="false" text="缩放">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#OnActionBig" text="放大" />
+                                <MenuItem mnemonicParsing="false" onAction="#OnActionSmall" text="缩小" />
+                            </items>
+                        </Menu>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <TextArea fx:id="noteTextArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <contextMenu>
+                <ContextMenu>
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionCopy" text="复制" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionPaste" text="粘贴" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionSelectAll" text="全选" />
+                        <MenuItem mnemonicParsing="false" onAction="#OnActionCut" text="剪切" />
+                    </items>
+                </ContextMenu>
+            </contextMenu></TextArea>
+    </center>
+    <bottom>
+        <HBox prefHeight="36.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="posLabel" prefHeight="34.0" prefWidth="225.0" text="行1，列1" />
+                <Separator orientation="VERTICAL" prefHeight="36.0" prefWidth="0.0" />
+                <Label fx:id="scaleLabel" prefHeight="36.0" prefWidth="39.0" text="100" />
+                <Label prefHeight="37.0" prefWidth="51.0" text="\%" />
+                <Separator orientation="VERTICAL" prefHeight="200.0" />
+                <Label prefHeight="36.0" prefWidth="161.0" text="Windows(CRLF)" />
+                <Separator orientation="VERTICAL" prefHeight="200.0" />
+                <Label prefHeight="40.0" prefWidth="55.0" text="UTF-8" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
+
