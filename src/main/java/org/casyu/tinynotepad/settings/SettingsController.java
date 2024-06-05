@@ -88,17 +88,18 @@ public class SettingsController {
             Parent root = loader.load();
             SettingsController settingsController = loader.getController();
             settingsController.appearanceSettings = this.appearanceSettings;
-            // 创建新的 Stage 用于设置窗口
+
+            // 创建设置窗口
             Stage settingsStage = new Stage();
-            settingsStage.setTitle("Settings");
+            settingsStage.setTitle("设置");
             settingsStage.setScene(new Scene(root));
             settingsStage.setOnCloseRequest(event -> {
                 closeSettings();
             });
-            settingsStage.initModality(Modality.APPLICATION_MODAL); // 设置为模态窗口，阻塞其他窗口操作
-            settingsStage.showAndWait(); // 显示窗口并等待其关闭
+            settingsStage.initModality(Modality.APPLICATION_MODAL);
+            settingsStage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace(); // 处理加载 FXML 时的异常
+            e.printStackTrace();
         }
     }
 

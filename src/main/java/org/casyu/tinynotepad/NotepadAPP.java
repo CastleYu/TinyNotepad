@@ -16,10 +16,11 @@ public class NotepadAPP extends Application {
         this.primaryStage = primaryStage;
         FXMLLoader loader;
         VBox root;
+        NotepadController controller;
         try {
             loader = new FXMLLoader(getClass().getResource("NotepadMain.fxml"));
             root = loader.load();
-
+            controller = loader.getController();
         } catch (Exception e) {
             System.out.println("error when load");
             System.err.println(e);
@@ -27,6 +28,7 @@ public class NotepadAPP extends Application {
         }
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(e->controller.saveManager.closeFile());
         primaryStage.setTitle("记事本");
         primaryStage.show();
     }

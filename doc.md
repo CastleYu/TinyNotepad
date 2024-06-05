@@ -26,7 +26,6 @@
 类如下
 
 
-```
 NoteapdApp : 程序入口，加载主窗口
 NotepadController : 负责主窗口，以及主窗口控件操作的绑定
    成员变量 Settings : 配置类的单例
@@ -53,4 +52,3 @@ settings/
 query/
    SearchManager : 负责记事本的搜索功能，包括搜索，替换，高亮等功能
    Searchontroller : 负责搜索窗口的具体展示和操作绑定
-```

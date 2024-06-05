@@ -18,36 +18,32 @@ import java.util.Scanner;
 
 public class SaveManager {
 
-    private boolean hasSaved;
     private File boundedFile;
     private final TextArea textArea;
-
-
     private Charset fileEncoding;
     private final StringProperty encodingProperty;
-
-
+    private String originalContent; // 添加原始内容字段
 
     public SaveManager(TextArea textArea) {
-        this.hasSaved = false;
         this.boundedFile = null;
         this.textArea = textArea;
         this.fileEncoding = StandardCharsets.UTF_8; // 默认编码
         this.encodingProperty = new SimpleStringProperty(this.fileEncoding.name());
+        this.originalContent = "";
     }
 
     public void createNewFile() {
-        if (!hasSaved && !textArea.getText().isEmpty()) {
+        if (isModified() && !textArea.getText().isEmpty()) {
             askForSave();
         }
         setFileEncoding(StandardCharsets.UTF_8);
         boundedFile = null;
         textArea.clear();
-        hasSaved = true;
+        originalContent = "";
     }
 
     public void openFile() {
-        if (!hasSaved && !textArea.getText().isEmpty()) {
+        if (isModified() && !textArea.getText().isEmpty()) {
             askForSave();
         }
         FileChooser fileChooser = new FileChooser();
@@ -56,18 +52,18 @@ public class SaveManager {
             boundedFile = file;
             String content = readFileWithEncodings(file);
             textArea.setText(content);
-            hasSaved = true;
+            originalContent = content;
         }
     }
 
     public void closeFile() {
-        if (!hasSaved && !textArea.getText().isEmpty()) {
+        if (isModified() && !textArea.getText().isEmpty()) {
             askForSave();
         }
         setFileEncoding(StandardCharsets.UTF_8);
         boundedFile = null;
         textArea.clear();
-        hasSaved = true;
+        originalContent = "";
     }
 
     public void saveAs() {
@@ -76,6 +72,7 @@ public class SaveManager {
         if (file != null) {
             boundedFile = file;
             writeFile(file);
+            originalContent = textArea.getText();
         }
     }
 
@@ -84,6 +81,7 @@ public class SaveManager {
             saveAs();
         } else {
             writeFile(boundedFile);
+            originalContent = textArea.getText();
         }
     }
 
@@ -135,7 +133,7 @@ public class SaveManager {
     private void writeFile(File file) {
         try (FileWriter writer = new FileWriter(file, fileEncoding)) {
             writer.write(textArea.getText());
-            hasSaved = true;
+            this.originalContent = textArea.getText();
         } catch (IOException e) {
             showError("写入文件异常");
         }
@@ -150,11 +148,17 @@ public class SaveManager {
         this.fileEncoding = fileEncoding;
         this.encodingProperty.set(fileEncoding.name());
     }
+
     public Charset getFileEncoding() {
         return fileEncoding;
     }
 
     public StringProperty encodingProperty() {
         return this.encodingProperty;
+    }
+
+    // 检查文件是否已被修改
+    public boolean isModified() {
+        return !textArea.getText().equals(originalContent);
     }
 }

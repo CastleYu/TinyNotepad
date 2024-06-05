@@ -56,10 +56,10 @@ public class NotepadController {
     @FXML
     private TextArea textArea;
     @FXML
-    public CheckMenuItem wrapTextItem;
-    private SearchManager searchManager;
-    private final SettingsController settingsController;
-    private SaveManager saveManager;
+    private CheckMenuItem wrapTextItem;
+    public SearchManager searchManager;
+    public final SettingsController settingsController;
+    public SaveManager saveManager;
 
     public NotepadController() {
         settingsController = new SettingsController();
