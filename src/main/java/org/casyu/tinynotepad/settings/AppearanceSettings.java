@@ -14,10 +14,11 @@ public class AppearanceSettings {
         this.textArea = textArea;
     }
 
-    public boolean checkWrap(){
+    public boolean checkWrap() {
         settings.setWrapText(textArea.isWrapText());
         return textArea.isWrapText();
     }
+
     public void applyAllSettings() {
         applyFontSettings();
         applyColorSettings();

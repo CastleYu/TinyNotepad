@@ -19,6 +19,7 @@ public class NotepadAPP extends Application {
         try {
             loader = new FXMLLoader(getClass().getResource("NotepadMain.fxml"));
             root = loader.load();
+
         } catch (Exception e) {
             System.out.println("error when load");
             System.err.println(e);
@@ -26,20 +27,11 @@ public class NotepadAPP extends Application {
         }
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("MyHelloApp");
+        primaryStage.setTitle("记事本");
         primaryStage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
-
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
 }

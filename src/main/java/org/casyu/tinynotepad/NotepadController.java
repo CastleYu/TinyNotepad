@@ -1,5 +1,6 @@
 package org.casyu.tinynotepad;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
@@ -11,10 +12,11 @@ import org.casyu.tinynotepad.query.SearchManager;
 import org.casyu.tinynotepad.settings.AppearanceSettings;
 import org.casyu.tinynotepad.settings.SettingsController;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class NotepadController {
 
-    @FXML
-    public MenuItem findItem;
     @FXML
     public MenuItem findOrReplaceItem;
     @FXML
@@ -65,10 +67,6 @@ public class NotepadController {
 
     @FXML
     public void initialize() {
-        searchManager = new SearchManager(textArea);
-        saveManager = new SaveManager(textArea);
-        settingsController.appearanceSettings = new AppearanceSettings(textArea);
-
         newItem.setOnAction(event -> createNewFile());
         openItem.setOnAction(event -> openFile());
         closeItem.setOnAction(event -> closeFile());
@@ -87,15 +85,19 @@ public class NotepadController {
         unselectAllItem.setOnAction(event -> unselectAll());
         wrapTextItem.selectedProperty().bindBidirectional(textArea.wrapTextProperty());
         textArea.setOnKeyReleased(this::updatePosition);
+        textArea.setOnMouseClicked(this::updatePosition);
         updatePosition(null);
 
-
+        searchManager = new SearchManager(textArea);
+        saveManager = new SaveManager(textArea);
+        settingsController.appearanceSettings = new AppearanceSettings(textArea);
 
         encodingLabel.textProperty().bind(saveManager.encodingProperty().concat(" 编码"));
         findOrReplaceItem.setOnAction(event -> searchManager.findOrReplace());
     }
 
     private void createNewFile() {
+
         saveManager.createNewFile();
     }
 
@@ -156,10 +158,20 @@ public class NotepadController {
         textArea.deselect();
     }
 
-    private void updatePosition(KeyEvent event) {
+    private void updatePosition(Event event) {
         int caretPosition = textArea.getCaretPosition();
-        int rowNum = textArea.getText(0, caretPosition).split("\n").length;
-        int colNum = caretPosition - textArea.getText(0, caretPosition).lastIndexOf("\n");
+
+        String textUpToCaret = textArea.getText(0, caretPosition);
+        int rowNum = textUpToCaret.split("\n", -1).length;
+
+        int colNum;
+        int lastNewLineIndex = textUpToCaret.lastIndexOf('\n');
+        if (lastNewLineIndex == -1) {
+            colNum = caretPosition + 1;
+        } else {
+            colNum = caretPosition - lastNewLineIndex;
+        }
+
         positionLabel.setText("行: " + rowNum + ", 列: " + colNum);
     }
 }

@@ -86,7 +86,8 @@ public class SettingsController {
             // 加载 settings.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
             Parent root = loader.load();
-
+            SettingsController settingsController = loader.getController();
+            settingsController.appearanceSettings = this.appearanceSettings;
             // 创建新的 Stage 用于设置窗口
             Stage settingsStage = new Stage();
             settingsStage.setTitle("Settings");
@@ -103,7 +104,7 @@ public class SettingsController {
 
     public void closeSettings() {
         applySettings();
-        if (settingsPane!=null) {
+        if (settingsPane != null) {
             Stage stage = (Stage) settingsPane.getScene().getWindow();
             stage.close();
         }

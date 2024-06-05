@@ -15,9 +15,6 @@
                     </children>
                 </TreeItem>
             </root>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
         </TreeView>
     </left>
     <center>

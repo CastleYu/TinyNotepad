@@ -38,6 +38,7 @@ public class SearchController {
     public void initialize() {
         searchButton.setOnAction(event -> search());
         replaceButton.setOnAction(event -> replace());
+        searchField.setOnKeyTyped(event -> search());
     }
 
     private void search() {
