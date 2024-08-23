@@ -23,17 +23,25 @@ public class NotepadAPP extends Application {
             controller = loader.getController();
         } catch (Exception e) {
             System.out.println("error when load");
-            System.err.println(e);
+            System.err.println(e.toString());
             return;
         }
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e->controller.saveManager.closeFile());
+        primaryStage.setOnCloseRequest(e -> controller.saveManager.closeFile());
         primaryStage.setTitle("记事本");
         primaryStage.show();
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }
